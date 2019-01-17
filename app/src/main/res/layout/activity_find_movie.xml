@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.75"
-            android:hint="cari film..."/>
+            android:hint="@string/hint_edt_cari_movie"/>
 
         <Button
             android:id="@+id/btn_find_movie"

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -23,7 +24,7 @@ import cz.msebera.android.httpclient.Header;
 
 public class MovieDetail extends AppCompatActivity {
 
-    private static final String API_KEY = "f9e89e20715c535ec2c321c612f95eed";
+    private static final String API_KEY = BuildConfig.TMDB_API_KEY;
 
     final ArrayList<GenreList> GenreLists = new ArrayList<>();
 
@@ -81,13 +82,15 @@ public class MovieDetail extends AppCompatActivity {
                     textViewRuntime = findViewById(R.id.tv_duration_detail);
                     textViewLanguage = findViewById(R.id.tv_language_detail);
                     imageViewPoster = findViewById(R.id.img_poster_detail);
-
                     textViewTitle.setText(original_title);
                     textViewLanguage.setText(original_language);
 
+
                     StringBuilder sb = new StringBuilder();
                     for (GenreList u : GenreLists) {
+
                         sb.append(" " + u.name + " ");
+
                     }
 
                     textViewGenres.setText(sb.toString());

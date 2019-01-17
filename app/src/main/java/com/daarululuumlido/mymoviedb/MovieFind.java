@@ -29,8 +29,9 @@ public class MovieFind extends AppCompatActivity {
     Button btnSearch;
     ProgressBar progressBarFindMovie;
 
-    static final String API_KEY = "f9e89e20715c535ec2c321c612f95eed";
+    static final String API_KEY = BuildConfig.TMDB_API_KEY;
     final ArrayList<MovieList> MovieListes = new ArrayList<>();
+    private static final String STATE_RESULT = "state_result";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,16 +40,26 @@ public class MovieFind extends AppCompatActivity {
 
         adapter = new MovieAdapter(this);
         adapter.notifyDataSetChanged();
-        listView = (ListView) findViewById(R.id.listView);
+        listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
-
-        edtMovie = (EditText) findViewById(R.id.edt_movie);
-        btnSearch = (Button) findViewById(R.id.btn_find_movie);
-        progressBarFindMovie = (ProgressBar) findViewById(R.id.progressbar_find_movie);
+        edtMovie = findViewById(R.id.edt_movie);
+        btnSearch = findViewById(R.id.btn_find_movie);
+        progressBarFindMovie = findViewById(R.id.progressbar_find_movie);
 
         btnSearch.setOnClickListener(myListener);
         getToRatedMovie();
 
+        if (savedInstanceState != null) {
+            String result = savedInstanceState.getString(STATE_RESULT);
+            getListMovie(result);
+        }
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(STATE_RESULT, edtMovie.getText().toString());
     }
 
     private void getToRatedMovie() {
@@ -60,8 +71,6 @@ public class MovieFind extends AppCompatActivity {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                String result = new String(responseBody);
-
                 try {
                     String hasil = new String(responseBody);
                     JSONObject responseObject = new JSONObject(hasil);
