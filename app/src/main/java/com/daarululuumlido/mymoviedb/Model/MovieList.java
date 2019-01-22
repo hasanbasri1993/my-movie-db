@@ -1,4 +1,4 @@
-package com.daarululuumlido.mymoviedb.SetterList;
+package com.daarululuumlido.mymoviedb.Model;
 
 import org.json.JSONObject;
 

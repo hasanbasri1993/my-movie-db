@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Movie</string>
+    <string name="overview_sample">Predominantly set during World War II, Steve Rogers is a sickly man from Brooklyn who\'s transformed into super-soldier Captain America to aid in the war effort. Rogers must stop the Red Skull – Adolf Hitler\'s ruthless head of weaponry, and the leader of an organization that intends to use a mysterious device of untold powers for world domination.</string>
+    <string name="title_sample">Captain America: The First Avenger</string>
+    <string name="hint_edt_cari_movie">cari film</string>
+    <string name="settings_language">Seting Bahasa</string>
+    <string name="search_titile_tab">Cari Film</string>
+    <string name="upcoming_title_tab">Mendatang</string>
+    <string name="nowplaying_title_tab">Sekarang</string>
+    <string name="detail_movie_title">Detail Film</string>
+    <string name="rating_detail">Peringkat</string>
+    <string name="duration_detail">Durasi</string>
+    <string name="language_detail">Bahasa</string>
+    <string name="genres_detail">Genre</string>
+    <string name="release_detail">Tanggal Keluar</string>
+    <string name="overview_detail">Ikhtisar</string>
+    <string name="release_date_sample">2002-05-01</string>
+</resources>

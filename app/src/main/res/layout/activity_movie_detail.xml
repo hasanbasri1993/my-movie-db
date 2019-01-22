@@ -1,10 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/spacing_large"
     android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/deep_orange_500"
+            app:contentInsetStartWithNavigation="0dp"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+    </android.support.design.widget.AppBarLayout>
 
     <ProgressBar
         android:id="@+id/progressbar_detail_movie"
@@ -57,7 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_large"
-                    android:textSize="20sp"
+                    android:textSize="@dimen/title_font_size_detail"
                     tools:text="@string/title_sample" />
 
                 <TextView
@@ -90,13 +107,13 @@
                         style="@style/MovieTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="26sp"
+                        android:textSize="@dimen/rating_font_size_detail"
                         tools:text="7.0" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Rating" />
+                        android:text="@string/rating_detail" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -111,13 +128,13 @@
                         style="@style/MovieTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="26sp"
+                        android:textSize="@dimen/rating_font_size_detail"
                         tools:text="121" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Duration" />
+                        android:text="@string/duration_detail" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -132,13 +149,13 @@
                         style="@style/MovieTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="26sp"
+                        android:textSize="@dimen/rating_font_size_detail"
                         tools:text="EN" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Language" />
+                        android:text="@string/language_detail" />
                 </LinearLayout>
 
 
@@ -148,8 +165,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_xlarge"
-                android:text="Genres"
-                android:textSize="22sp"
+                android:text="@string/genres_detail"
+                android:textSize="@dimen/genre_title_font_size_detail"
                 android:textStyle="bold" />
 
             <TextView
@@ -157,15 +174,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/spacing_smlarge"
-                android:textSize="15sp"
+                android:textSize="@dimen/genre_font_size_detail"
                 tools:text="Genres Genres" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_large"
-                android:text="Release"
-                android:textSize="22sp"
+                android:text="@string/release_detail"
+                android:textSize="@dimen/genre_title_font_size_detail"
                 android:textStyle="bold" />
 
             <TextView
@@ -173,15 +190,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/spacing_smlarge"
-                android:textSize="15sp"
-                android:text="2002-05-01" />
+                android:text="@string/release_date_sample"
+                android:textSize="@dimen/genre_font_size_detail" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_large"
-                android:text="Overview"
-                android:textSize="22sp"
+                android:text="@string/overview_detail"
+                android:textSize="@dimen/genre_title_font_size_detail"
                 android:textStyle="bold" />
 
             <TextView
@@ -189,8 +206,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/spacing_smlarge"
-                android:textSize="15sp"
-                tools:text="@string/overview_sample" />
+                android:text="@string/overview_sample"
+                android:textSize="@dimen/genre_font_size_detail" />
         </LinearLayout>
     </ScrollView>
 

@@ -22,5 +22,9 @@
     <dimen name="spacing_xxlarge">50dp</dimen>
     <dimen name="spacing_xxxlarge">55dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
+    <dimen name="title_font_size_detail">20sp</dimen>
+    <dimen name="rating_font_size_detail">26sp</dimen>
+    <dimen name="genre_title_font_size_detail">22sp</dimen>
+    <dimen name="genre_font_size_detail">15sp</dimen>
 
 </resources>
