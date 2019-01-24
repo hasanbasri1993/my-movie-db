@@ -6,9 +6,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="settings_language">Setting Language</string>
-    <string name="search_titile_tab">Search</string>
+    <string name="search_titile_tab">Result Search</string>
     <string name="upcoming_title_tab">Upcoming</string>
     <string name="nowplaying_title_tab">Now Playing</string>
+    <string name="favorite_title_tab">Favorite</string>
     <string name="detail_movie_title">Detail Movie</string>
     <string name="rating_detail">Rating</string>
     <string name="duration_detail">Duration</string>

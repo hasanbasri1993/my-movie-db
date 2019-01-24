@@ -1,9 +1,9 @@
-package com.daarululuumlido.mymoviedb.Feature;
+package com.daarululuumlido.mymoviedb.feature;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,8 +13,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.daarululuumlido.mymoviedb.BuildConfig;
-import com.daarululuumlido.mymoviedb.Model.GenreList;
 import com.daarululuumlido.mymoviedb.R;
+import com.daarululuumlido.mymoviedb.database.FavoriteHelper;
+import com.daarululuumlido.mymoviedb.model.GenreListModel;
+import com.daarululuumlido.mymoviedb.model.MovieListModel;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -27,11 +29,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
+import static com.daarululuumlido.mymoviedb.database.DatabaseContract.FavoriteMovieColumns.IDMOVIE;
+
 public class MovieDetailActivity extends AppCompatActivity {
 
     private static final String API_KEY = BuildConfig.TMDB_API_KEY;
+    final ArrayList<GenreListModel> GenreLists = new ArrayList<>();
+    final ArrayList<MovieListModel> MovieLists = new ArrayList<>();
+    private Menu menuItem;
+    String MOVIE_ID = "";
+    Boolean isFavorite = false;
 
-    final ArrayList<GenreList> GenreLists = new ArrayList<>();
+    FavoriteHelper favoriteHelper;
 
     @BindView(R.id.tv_title_detail)
     TextView textViewTitle;
@@ -63,9 +72,6 @@ public class MovieDetailActivity extends AppCompatActivity {
     @BindView(R.id.ln_detail)
     LinearLayout linearLayoutDetailMovie;
 
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,29 +79,77 @@ public class MovieDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_detail);
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(R.string.detail_movie_title);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        String MOVIE_ID = getIntent().getStringExtra("MOVIE_ID");
+
+        MOVIE_ID = getIntent().getStringExtra(IDMOVIE);
         getDetailMovie(MOVIE_ID);
+
+        favoriteHelper = new FavoriteHelper(this);
+        favoriteHelper.open();
+        favoriteState();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_favorite, menu);
+        menuItem = menu;
+        menuItem.setGroupVisible(0, false);
+        setFavorite();
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
+        } else if (item.getItemId() == R.id.add_favorite) {
+            if (isFavorite) {
+                removeFavorite();
+            } else {
+                addFavorite();
+            }
+            isFavorite = !isFavorite;
+            setFavorite();
         }
         return super.onOptionsItemSelected(item);
     }
 
+    void favoriteState() {
+        isFavorite = favoriteHelper.checkAvailability(MOVIE_ID);
+    }
+
+    void addFavorite() {
+        try {
+            for (MovieListModel model : MovieLists) {
+                favoriteHelper.insertFavoriteMovie(model);
+            }
+        } catch (Exception e) {
+            // Jika gagal maka do nothing
+        }
+    }
+
+    void removeFavorite() {
+        favoriteHelper.deleteFavoriteIdMovie(MOVIE_ID);
+
+    }
+
+
+    void setFavorite() {
+        if (isFavorite)
+            menuItem.getItem(0).setIcon(R.drawable.ic_added_to_favorites);
+        else
+            menuItem.getItem(0).setIcon(R.drawable.ic_add_to_favorites);
+    }
+
+
     private void getDetailMovie(String idMovie) {
         progressBarDetailMovie.setVisibility(View.VISIBLE);
         linearLayoutDetailMovie.setVisibility(View.GONE);
-        Log.d("LOG", "getDetailMovie: Mulai....., Dengan idMOvie : " + idMovie);
         AsyncHttpClient client = new AsyncHttpClient();
-        String url = BuildConfig.BASE_URL + "/" + idMovie + "?api_key=" + API_KEY;
+        String url = BuildConfig.BASE_URL + "movie/" + idMovie + "?api_key=" + API_KEY;
         client.get(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -103,16 +157,17 @@ public class MovieDetailActivity extends AppCompatActivity {
 
                 try {
                     JSONObject responseObject = new JSONObject(result);
+                    MovieListModel MovieList = new MovieListModel(responseObject);
+                    MovieLists.add(MovieList);
 
-                    String original_title = responseObject.getString("original_title");
-                    String original_language = responseObject.getString("original_language");
                     JSONArray list = responseObject.getJSONArray("genres");
                     for (int i = 0; i < list.length(); i++) {
                         JSONObject genres = list.getJSONObject(i);
-                        GenreList GenreList = new GenreList(genres);
+                        GenreListModel GenreList = new GenreListModel(genres);
                         GenreLists.add(GenreList);
                     }
-                    String genres = responseObject.getJSONArray("genres").getJSONObject(0).getString("name");
+                    String original_title = responseObject.getString("original_title");
+                    String original_language = responseObject.getString("original_language");
                     String overview = responseObject.getString("overview");
                     String vote_average = responseObject.getString("vote_average");
                     String runtime = responseObject.getString("runtime");
@@ -120,11 +175,8 @@ public class MovieDetailActivity extends AppCompatActivity {
                     String tagline = responseObject.getString("tagline");
 
 
-                    textViewLanguage.setText(original_language);
-
-
                     StringBuilder sb = new StringBuilder();
-                    for (GenreList u : GenreLists) {
+                    for (GenreListModel u : GenreLists) {
                         sb.append(" " + u.name + " ");
                     }
 
@@ -133,19 +185,19 @@ public class MovieDetailActivity extends AppCompatActivity {
                     textViewOverview.setText(overview);
                     textViewVote.setText(vote_average);
                     textViewRuntime.setText(runtime);
+                    textViewLanguage.setText(original_language);
                     textViewTagline.setText(tagline);
 
                     Glide
                             .with(MovieDetailActivity.this)
                             .load(BuildConfig.IMAGE_URL + poster_path)
                             .into(imageViewPoster);
-
-                    Log.d("LOG", "onSuccess: Selesai.....");
                     progressBarDetailMovie.setVisibility(View.GONE);
                     linearLayoutDetailMovie.setVisibility(View.VISIBLE);
+                    menuItem.setGroupVisible(0, true);
+
 
                 } catch (Exception e) {
-                    Log.d("LOG", "onSuccess: Gagal.....");
                     progressBarDetailMovie.setVisibility(View.GONE);
                     linearLayoutDetailMovie.setVisibility(View.VISIBLE);
                     e.printStackTrace();
@@ -154,10 +206,10 @@ public class MovieDetailActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Log.d("LOG", "onFailure: Gagal.....");
                 progressBarDetailMovie.setVisibility(View.GONE);
                 linearLayoutDetailMovie.setVisibility(View.VISIBLE);
             }
         });
     }
+
 }

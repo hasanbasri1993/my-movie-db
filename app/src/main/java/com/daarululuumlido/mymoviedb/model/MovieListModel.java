@@ -1,10 +1,15 @@
-package com.daarululuumlido.mymoviedb.Model;
+package com.daarululuumlido.mymoviedb.model;
 
 import org.json.JSONObject;
 
-public class MovieList {
+public class MovieListModel {
 
-    public MovieList(JSONObject object) {
+    private String id;
+    private String title;
+    private String poster_path;
+    private String overview;
+
+    public MovieListModel(JSONObject object) {
 
         try {
             String id = object.getString("id");
@@ -16,12 +21,15 @@ public class MovieList {
             this.title = title;
             this.poster_path = poster_path;
             this.overview = overview;
-
         } catch (Exception e) {
 
             e.printStackTrace();
 
         }
+    }
+
+    public MovieListModel() {
+
     }
 
     public String getId() { return id; }
@@ -38,8 +46,18 @@ public class MovieList {
         return overview;
     }
 
-    private String id;
-    private String title;
-    private String poster_path;
-    private String overview;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setPoster_path(String poster_path) {
+        this.poster_path = poster_path;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
+    }
+
+    public void setTitle(String title) { this.title = title; }
+
 }
