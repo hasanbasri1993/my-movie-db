@@ -1,11 +1,13 @@
-package com.daarululuumlido.mymoviedb.feature;
+package com.daarululuumlido.mymoviedb.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -50,9 +52,7 @@ public class SearchResultMovieActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         favoriteHelper = new FavoriteHelper(this);
-        movieAdapter = new MovieAdapter(this);
 
-        movieAdapter.notifyDataSetChanged();
         showRecyclerList();
         if (getIntent() != null) {
             if (getIntent().getStringExtra(INTENTS_TAG).equals("search")) {
@@ -72,13 +72,21 @@ public class SearchResultMovieActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private void showRecyclerList() {
         listView.setLayoutManager(new GridLayoutManager(this, 3));
         listView.setHasFixedSize(true);
+        listView.setItemAnimator(new DefaultItemAnimator());
 
-        MovieAdapter listMovieAdapter = new MovieAdapter(this);
-        listMovieAdapter.setListMovie(MovieListes);
-        listView.setAdapter(listMovieAdapter);
+        movieAdapter = new MovieAdapter(this);
+        movieAdapter.setListMovie(MovieListes);
 
         ItemClickSupport.addTo(listView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
@@ -98,16 +106,17 @@ public class SearchResultMovieActivity extends AppCompatActivity {
             favoriteHelper.open();
             MovieListes = favoriteHelper.getAllData();
             favoriteHelper.close();
-
             movieAdapter.setListMovie(MovieListes);
+            listView.setAdapter(movieAdapter);
             progressBarFindMovie.setVisibility(View.GONE);
-            Log.d("LOG", "onSuccess: Selesai..... getFavorite()");
+            Log.d("LOG", "onSuccess: Selesai..... getFavorite()" + MovieListes);
         } catch (Exception e) {
             Log.d("LOG", "onSuccess: Gagal..... getFavorite()");
             e.printStackTrace();
             progressBarFindMovie.setVisibility(View.GONE);
         }
     }
+
 
     private void getListMovie(String movieName) {
         progressBarFindMovie.setVisibility(View.VISIBLE);
@@ -128,6 +137,8 @@ public class SearchResultMovieActivity extends AppCompatActivity {
                         MovieListes.add(MovieList);
                     }
                     movieAdapter.setListMovie(MovieListes);
+                    listView.setAdapter(movieAdapter);
+
                     progressBarFindMovie.setVisibility(View.GONE);
                     Log.d("LOG", "onSuccess: Selesai....." + MovieListes.get(0));
                 } catch (Exception e) {
@@ -143,6 +154,15 @@ public class SearchResultMovieActivity extends AppCompatActivity {
                 progressBarFindMovie.setVisibility(View.GONE);
             }
         });
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!getIntent().getStringExtra(INTENTS_TAG).equals("search")) {
+            getFavorite();
+        }
     }
 
 }

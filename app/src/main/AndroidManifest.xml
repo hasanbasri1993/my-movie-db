@@ -3,6 +3,8 @@
     package="com.daarululuumlido.mymoviedb">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <permission android:name="com.daarululuumlido.mymoviedb.READ_DATABASE" android:protectionLevel="normal" />
+    <permission android:name="com.daarululuumlido.mymoviedb.WRITE_DATABASE" android:protectionLevel="normal" />
 
     <application
         android:allowBackup="true"
@@ -11,15 +13,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".feature.MovieMainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".feature.MovieDetailActivity"></activity>
-        <activity android:name=".feature.SearchResultMovieActivity"></activity>
+        <activity android:name=".activity.MovieDetailActivity"></activity>
+        <activity android:name=".activity.SearchResultMovieActivity"></activity>
+        <provider
+            android:authorities="com.daarululuumlido.mymoviedb"
+            android:name=".provider.FavoriteProvider"
+            android:exported="true"
+            android:readPermission="com.daarululuumlido.mymoviedb.READ_DATABASE"
+            android:writePermission="com.daarululuumlido.mymoviedb.WRITE_DATABASE" />
     </application>
 
 </manifest>

@@ -7,7 +7,6 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.daarululuumlido.mymoviedb.model.FavoriteModel;
 import com.daarululuumlido.mymoviedb.model.MovieListModel;
 
 import java.util.ArrayList;
@@ -31,6 +30,15 @@ public class FavoriteHelper {
         this.context = context;
     }
 
+    public FavoriteHelper open() throws SQLException {
+        dataBaseHelper = new DatabaseHelper(context);
+        database = dataBaseHelper.getWritableDatabase();
+        return this;
+    }
+
+    public void close() {
+        dataBaseHelper.close();
+    }
 
     public long insertFavoriteMovie(MovieListModel movieListModel) {
         ContentValues initialValues = new ContentValues();
@@ -50,8 +58,6 @@ public class FavoriteHelper {
         Cursor cursor = database.query(TABLE_NAME_FAVORITE, null, IDMOVIE + " = ?", new String[]{id}, null, null, _ID + " ASC", null);
         cursor.moveToFirst();
         boolean isTrue = false;
-        Log.d("LOG", "julah id " + cursor.getCount());
-
         if (cursor.getCount() > 0) {
             isTrue = true;
         }
@@ -60,7 +66,7 @@ public class FavoriteHelper {
     }
 
     public ArrayList<MovieListModel> getAllData() {
-        Cursor cursor = database.query(TABLE_NAME_FAVORITE, null, null, null, null, null, _ID + " ASC", null);
+        Cursor cursor = database.query(TABLE_NAME_FAVORITE, null, null, null, null, null, TITLEMOVIE + " ASC", null);
         cursor.moveToFirst();
         ArrayList<MovieListModel> arrayList = new ArrayList<>();
         MovieListModel movieListModel;
@@ -79,14 +85,37 @@ public class FavoriteHelper {
         return arrayList;
     }
 
-    public FavoriteHelper open() throws SQLException {
-        dataBaseHelper = new DatabaseHelper(context);
-        database = dataBaseHelper.getWritableDatabase();
-        return this;
+    public Cursor queryByIdProvider(String id) {
+        return database.query(TABLE_NAME_FAVORITE, null
+                , IDMOVIE + " = ?"
+                , new String[]{id}
+                , null
+                , null
+                , null
+                , null
+        );
     }
 
-    public void close() {
-        dataBaseHelper.close();
+    public Cursor queryProvider() {
+        return database.query(TABLE_NAME_FAVORITE, null
+                , null
+                , null
+                , null
+                , null
+                , TITLEMOVIE + " ASC"
+        );
+    }
+
+    public long insertProvider(ContentValues values) {
+        return database.insert(TABLE_NAME_FAVORITE, null, values);
+    }
+
+    public int updateProvider(String id, ContentValues values) {
+        return database.update(TABLE_NAME_FAVORITE, values, IDMOVIE + " = '" + id + "'", new String[]{id});
+    }
+
+    public int deleteProvider(String id) {
+        return database.delete(TABLE_NAME_FAVORITE, IDMOVIE + " = '" + id + "'",null);
     }
 
 }

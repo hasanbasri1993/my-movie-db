@@ -1,4 +1,4 @@
-package com.daarululuumlido.mymoviedb.database;
+package com.daarululuumlido.myfavoritemovie.database;
 
 import android.database.Cursor;
 import android.net.Uri;

@@ -1,4 +1,4 @@
-package com.daarululuumlido.mymoviedb.model;
+package com.daarululuumlido.myfavoritemovie.model;
 
 import org.json.JSONObject;
 
