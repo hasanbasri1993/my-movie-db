@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Film Urang</string>
+    <string name="overview_sample">Predominantly set during World War II, Steve Rogers is a sickly man from Brooklyn who\'s transformed into super-soldier Captain America to aid in the war effort. Rogers must stop the Red Skull – Adolf Hitler\'s ruthless head of weaponry, and the leader of an organization that intends to use a mysterious device of untold powers for world domination.</string>
+    <string name="title_sample">Captain America: The First Avenger</string>
+    <string name="hint_edt_cari_movie">Palariang Film</string>
+    <string name="settings_language">Setting Basa</string>
+    <string name="search_titile_tab">Néangan  Film</string>
+    <string name="nowplaying_title_tab">Ayeuna</string>
+    <string name="upcoming_title_tab">Nurek datang</string>
+    <string name="detail_movie_title">Rincian pilem</string>
+    <string name="rating_detail">Peunteun</string>
+    <string name="duration_detail">Waktu</string>
+    <string name="language_detail">Basa</string>
+    <string name="genres_detail">Genre</string>
+    <string name="release_detail">Paleupasan</string>
+    <string name="overview_detail">Ihtisar</string>
+    <string name="release_date_sample">2002-05-01</string>
+    <string name="favorite_title_tab">Favorite</string>
+</resources>
