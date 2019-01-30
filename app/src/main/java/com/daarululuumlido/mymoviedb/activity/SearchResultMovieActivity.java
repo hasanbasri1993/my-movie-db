@@ -24,7 +24,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,9 +39,10 @@ public class SearchResultMovieActivity extends AppCompatActivity {
     ProgressBar progressBarFindMovie;
     FavoriteHelper favoriteHelper;
     MovieAdapter movieAdapter;
-    List<MovieListModel> MovieListes = new ArrayList<>();
+    ArrayList<MovieListModel> MovieListes = new ArrayList<>();
     private static final String INTENTS_QUERY = "search";
     private static final String INTENTS_TAG = "TAG";
+    int columns = 0;
 
 
     @Override
@@ -52,21 +52,39 @@ public class SearchResultMovieActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         favoriteHelper = new FavoriteHelper(this);
+        movieAdapter = new MovieAdapter(this);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         showRecyclerList();
         if (getIntent() != null) {
             if (getIntent().getStringExtra(INTENTS_TAG).equals("search")) {
-                String q = getIntent().getStringExtra(INTENTS_QUERY);
-                getListMovie(q);
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setTitle(getString(R.string.search_titile_tab) + ": " + q);
+                getSupportActionBar().setTitle(getString(R.string.search_titile_tab));
+                if (savedInstanceState != null) {
+                    String q = savedInstanceState.getString("query");
+                    if (getSupportActionBar() != null) {
+                        getSupportActionBar().setSubtitle("Hasil percarian: " + q);
+                    }
+
+                    MovieListes = savedInstanceState.getParcelableArrayList("now");
+                    movieAdapter.setListMovie(MovieListes);
+                    listView.setAdapter(movieAdapter);
+                } else {
+                    String q = getIntent().getStringExtra(INTENTS_QUERY);
+                    if (getSupportActionBar() != null) {
+                        getSupportActionBar().setSubtitle("Hasil percarian: " + q);
+                    }
+                    getListMovie(q);
                 }
+
             } else {
-                getFavorite();
-                if (getSupportActionBar() != null) {
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                    getSupportActionBar().setTitle(getString(R.string.favorite_title_tab));
+                getSupportActionBar().setTitle(getString(R.string.favorite_title_tab));
+                if (savedInstanceState != null) {
+                    MovieListes = savedInstanceState.getParcelableArrayList("now");
+                    movieAdapter.setListMovie(MovieListes);
+                    listView.setAdapter(movieAdapter);
+                } else {
+                    getFavorite();
                 }
             }
         }
@@ -81,12 +99,12 @@ public class SearchResultMovieActivity extends AppCompatActivity {
     }
 
     private void showRecyclerList() {
-        listView.setLayoutManager(new GridLayoutManager(this, 3));
+        columns = getResources().getInteger(R.integer.collumn_count);
+        movieAdapter = new MovieAdapter(this);
+
+        listView.setLayoutManager(new GridLayoutManager(this, columns));
         listView.setHasFixedSize(true);
         listView.setItemAnimator(new DefaultItemAnimator());
-
-        movieAdapter = new MovieAdapter(this);
-        movieAdapter.setListMovie(MovieListes);
 
         ItemClickSupport.addTo(listView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
@@ -97,6 +115,16 @@ public class SearchResultMovieActivity extends AppCompatActivity {
                 v.getContext().startActivity(moveWithDataIntent);
             }
         });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        String q = getIntent().getStringExtra(INTENTS_QUERY);
+        if (q != null) {
+            outState.putString("query", getIntent().getStringExtra(INTENTS_QUERY));
+        }
+        outState.putParcelableArrayList("now", MovieListes);
     }
 
     private void getFavorite() {
@@ -154,15 +182,6 @@ public class SearchResultMovieActivity extends AppCompatActivity {
                 progressBarFindMovie.setVisibility(View.GONE);
             }
         });
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (!getIntent().getStringExtra(INTENTS_TAG).equals("search")) {
-            getFavorite();
-        }
     }
 
 }

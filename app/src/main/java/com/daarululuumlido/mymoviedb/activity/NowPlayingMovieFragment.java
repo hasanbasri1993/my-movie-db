@@ -4,6 +4,7 @@ package com.daarululuumlido.mymoviedb.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -44,7 +45,8 @@ public class NowPlayingMovieFragment extends Fragment {
     ProgressBar progressBarNowPlayingMovie;
 
     MovieAdapter adapter;
-    final ArrayList<MovieListModel> MovieListes = new ArrayList<>();
+    ArrayList<MovieListModel> MovieListes = new ArrayList<>();
+    int columns = 0;
 
     public NowPlayingMovieFragment() {
         // Required empty public constructor
@@ -61,18 +63,28 @@ public class NowPlayingMovieFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_nowplaying_movie, container, false);
         ButterKnife.bind(this, root);
 
-        adapter = new MovieAdapter(getContext());
-        adapter.notifyDataSetChanged();
+        MovieListes = new ArrayList<>();
         showRecyclerList();
-        getNowPlayingMovie();
+
+        if(savedInstanceState!=null){
+            MovieListes = savedInstanceState.getParcelableArrayList("now");
+            adapter.setListMovie(MovieListes);
+            listView.setAdapter(adapter);
+        }else{
+            getNowPlayingMovie();
+        }
+
         return root;
     }
 
     private void showRecyclerList() {
-        listView.setLayoutManager(new GridLayoutManager(getContext(),3));
-        MovieAdapter listMovieAdapter = new MovieAdapter(getContext());
-        listMovieAdapter.setListMovie(MovieListes);
-        listView.setAdapter(listMovieAdapter);
+        columns = getResources().getInteger(R.integer.collumn_count);
+        adapter = new MovieAdapter(getActivity());
+
+        listView.setLayoutManager(new GridLayoutManager(getContext(),columns));
+        listView.setHasFixedSize(true);
+        listView.setItemAnimator(new DefaultItemAnimator());
+
         ItemClickSupport.addTo(listView).setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
             @Override
             public void onItemClicked(RecyclerView recyclerView, int position, View v) {
@@ -83,6 +95,11 @@ public class NowPlayingMovieFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList("now", MovieListes);
+    }
 
     private void getNowPlayingMovie() {
         progressBarNowPlayingMovie.setVisibility(View.VISIBLE);
@@ -104,7 +121,7 @@ public class NowPlayingMovieFragment extends Fragment {
                         MovieListes.add(MovieList);
                     }
                     adapter.setListMovie(MovieListes);
-                    //adapter.setData(MovieListes);
+                    listView.setAdapter(adapter);
 
                     Log.d("LOG", "onSuccess: Selesai.....");
                     progressBarNowPlayingMovie.setVisibility(View.GONE);

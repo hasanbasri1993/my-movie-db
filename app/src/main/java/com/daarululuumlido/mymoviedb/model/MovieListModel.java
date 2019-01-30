@@ -1,8 +1,11 @@
 package com.daarululuumlido.mymoviedb.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.json.JSONObject;
 
-public class MovieListModel {
+public class MovieListModel implements Parcelable {
 
     private String id;
     private String title;
@@ -35,7 +38,9 @@ public class MovieListModel {
         this.overview = overview;
     }
 
-    public String getId() { return id; }
+    public String getId() {
+        return id;
+    }
 
     public String getTitle() {
         return title;
@@ -61,6 +66,20 @@ public class MovieListModel {
         this.overview = overview;
     }
 
-    public void setTitle(String title) { this.title = title; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(title);
+        dest.writeString(poster_path);
+        dest.writeString(overview);
+    }
 }
