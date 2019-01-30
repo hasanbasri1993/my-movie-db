@@ -18,4 +18,5 @@
     <string name="release_detail">Release</string>
     <string name="overview_detail">Overview</string>
     <string name="release_date_sample">2002-05-01</string>
+    <string name="appwidget_text">My Favorite Movie</string>
 </resources>
