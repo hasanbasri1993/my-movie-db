@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="4dp"
+    android:paddingLeft="4dp"
+    android:paddingRight="4dp"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.v7.widget.CardView
+        style="@style/CardListMovieStyle">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/img_poster"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@drawable/ic_placeholder" />
+            <TextView
+                android:lines="1"
+                android:layout_margin="@dimen/spacing_medium"
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="@string/title_sample"
+                style="@style/MovieTitle"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/spacing_xsmall"
+                android:layout_marginTop="@dimen/spacing_xsmall"
+                android:background="@color/deep_orange_500"/>
+
+            <TextView
+                android:layout_margin="@dimen/spacing_medium"
+                android:id="@+id/tv_overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLength="30"
+                tools:text="@string/overview_sample" />
+             </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</RelativeLayout>
