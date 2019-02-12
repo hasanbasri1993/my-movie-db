@@ -3,6 +3,7 @@
     package="com.daarululuumlido.mymoviedb">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <permission
         android:name="com.daarululuumlido.mymoviedb.READ_DATABASE"
         android:protectionLevel="normal" />
@@ -17,7 +18,6 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,9 +25,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.MovieDetailActivity" />
-        <activity android:name=".activity.SearchResultMovieActivity" />
+        <activity
+            android:name=".activity.MovieDetailActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
+        <activity android:name=".activity.SearchResultMovieActivity" />
+        <activity android:name=".activity.SettingsPrefActivity" />
+
+        <receiver
+            android:name=".notification.MovieDailyReceiver"
+            android:enabled="true"
+            android:exported="false" />
+        <receiver
+            android:name=".notification.MovieUpcomingReceiver"
+            android:enabled="true"
+            android:exported="false" />
         <receiver android:name=".widget.FavoriteMovieWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -37,10 +49,10 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/favorite_movie_widget_info" />
         </receiver>
+
         <service
             android:name=".widget.FavoriteMovieWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-
 
         <provider
             android:name=".provider.FavoriteProvider"
@@ -48,8 +60,6 @@
             android:exported="true"
             android:readPermission="com.daarululuumlido.mymoviedb.READ_DATABASE"
             android:writePermission="com.daarululuumlido.mymoviedb.WRITE_DATABASE" />
-
-
     </application>
 
 </manifest>

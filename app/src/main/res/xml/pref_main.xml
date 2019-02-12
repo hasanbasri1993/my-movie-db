@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Language">
+        <Preference
+            android:key="@string/key_lang_setting"
+            android:summary="@string/summary_language_setting"
+            android:title="@string/settings_language">
+
+        </Preference>
+    </PreferenceCategory>
+
+
+    <PreferenceCategory android:title="Notifications">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_today_reminder"
+            android:summary="You will reveiced daily reminder every 8 AM"
+            android:title="Daily Reminder" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/key_release_reminder"
+            android:summary="You will reveiced daily movie release info every 7 AM"
+            android:title="Release Reminder" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

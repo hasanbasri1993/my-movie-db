@@ -10,6 +10,13 @@
         <item name="android:textColorPrimary">#FFFFFF</item>
     </style>
 
+    <style name="TitleBarTextAppearance" parent="android:TextAppearance">
+        <item name="android:fontFamily">@font/proxima</item>
+        <item name="android:textSize">23sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Toolbar.Light" parent="@style/AppTheme">
@@ -36,8 +43,9 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextAppearance.Medium.Bold" parent="@style/TextAppearance.AppCompat.Medium">
-        <item name="android:textStyle">bold</item>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
 </resources>

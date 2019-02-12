@@ -8,13 +8,8 @@
     <string name="search_titile_tab">Néangan  Film</string>
     <string name="nowplaying_title_tab">Ayeuna</string>
     <string name="upcoming_title_tab">Nurek datang</string>
-    <string name="detail_movie_title">Rincian pilem</string>
-    <string name="rating_detail">Peunteun</string>
-    <string name="duration_detail">Waktu</string>
-    <string name="language_detail">Basa</string>
     <string name="genres_detail">Genre</string>
     <string name="release_detail">Paleupasan</string>
-    <string name="overview_detail">Ihtisar</string>
     <string name="release_date_sample">2002-05-01</string>
     <string name="favorite_title_tab">Favorite</string>
 </resources>

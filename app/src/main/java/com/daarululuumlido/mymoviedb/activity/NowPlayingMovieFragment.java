@@ -14,9 +14,9 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.daarululuumlido.mymoviedb.BuildConfig;
+import com.daarululuumlido.mymoviedb.R;
 import com.daarululuumlido.mymoviedb.adapter.MovieAdapter;
 import com.daarululuumlido.mymoviedb.model.MovieListModel;
-import com.daarululuumlido.mymoviedb.R;
 import com.daarululuumlido.mymoviedb.tools.ItemClickSupport;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;

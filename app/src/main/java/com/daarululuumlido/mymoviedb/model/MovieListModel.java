@@ -11,6 +11,7 @@ public class MovieListModel implements Parcelable {
     private String title;
     private String poster_path;
     private String overview;
+    private String release_date;
 
     public MovieListModel(JSONObject object) {
 
@@ -19,11 +20,13 @@ public class MovieListModel implements Parcelable {
             String title = object.getString("title");
             String overview = object.getString("overview");
             String poster_path = object.getString("poster_path");
+            String release_date = object.getString("release_date");
 
             this.id = id;
             this.title = title;
             this.poster_path = poster_path;
             this.overview = overview;
+            this.release_date = release_date;
         } catch (Exception e) {
 
             e.printStackTrace();
@@ -32,10 +35,7 @@ public class MovieListModel implements Parcelable {
     }
 
     public MovieListModel() {
-        this.id = id;
-        this.title = title;
-        this.poster_path = poster_path;
-        this.overview = overview;
+
     }
 
     public String getId() {
@@ -54,6 +54,10 @@ public class MovieListModel implements Parcelable {
         return overview;
     }
 
+    public String getReleaseDate() {
+        return release_date;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
@@ -70,6 +74,10 @@ public class MovieListModel implements Parcelable {
         this.title = title;
     }
 
+    public void setReleaseDate(String release_date) {
+        this.title = release_date;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -77,9 +85,22 @@ public class MovieListModel implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(title);
-        dest.writeString(poster_path);
-        dest.writeString(overview);
+        dest.writeString(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.poster_path);
+        dest.writeString(this.overview);
+        dest.writeString(this.release_date);
     }
+
+    public static final Parcelable.Creator<MovieListModel> CREATOR = new Parcelable.Creator<MovieListModel>() {
+        @Override
+        public MovieListModel createFromParcel(Parcel source) {
+            return new MovieListModel();
+        }
+
+        @Override
+        public MovieListModel[] newArray(int size) {
+            return new MovieListModel[size];
+        }
+    };
 }

@@ -7,45 +7,41 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import com.daarululuumlido.mymoviedb.R;
+
+import static android.appwidget.AppWidgetManager.EXTRA_APPWIDGET_ID;
 
 /**
  * Implementation of App Widget functionality.
  */
-public class FavoriteMovieWidget  extends AppWidgetProvider {
+public class FavoriteMovieWidget extends AppWidgetProvider {
 
     public static final String TOAST_ACTION = "com.daarululuumlido.app.mymoviedb.TOAST_ACTION";
     public static final String EXTRA_ITEM = "com.daarululuumlido.app.mymoviedb.EXTRA_ITEM";
+    public static final String WIDGET_CLICK = "widgetclick";
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
+    void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
 
         Intent intent = new Intent(context, FavoriteMovieWidgetService.class);
 
-        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        intent.putExtra(EXTRA_APPWIDGET_ID, appWidgetId);
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.favorite_movie_widget);
-
         views.setRemoteAdapter(R.id.stack_view, intent);
-
         views.setEmptyView(R.id.stack_view, R.id.empty_view);
-
-
         Intent toastIntent = new Intent(context, FavoriteMovieWidget.class);
-
         toastIntent.setAction(FavoriteMovieWidget.TOAST_ACTION);
-        toastIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        toastIntent.putExtra(EXTRA_APPWIDGET_ID, appWidgetId);
         intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
         PendingIntent toastPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         views.setPendingIntentTemplate(R.id.stack_view, toastPendingIntent);
-
-
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
+
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -64,20 +60,33 @@ public class FavoriteMovieWidget  extends AppWidgetProvider {
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
     }
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        AppWidgetManager mgr = AppWidgetManager.getInstance(context);
-
-        if (intent.getAction().equals(TOAST_ACTION)) {
-            int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-                    AppWidgetManager.INVALID_APPWIDGET_ID);
-            int viewIndex = intent.getIntExtra(EXTRA_ITEM, 0);
-            Toast.makeText(context, "Touched view " + viewIndex, Toast.LENGTH_SHORT).show();
-        }
-
-
         super.onReceive(context, intent);
 
+        if (WIDGET_CLICK.equals(intent.getAction())) {
+            AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.favorite_movie_widget);
+            Intent toastIntent = new Intent(context, FavoriteMovieWidget.class);
+            int appWidgetId = intent.getIntExtra(EXTRA_APPWIDGET_ID, 0);
+
+            toastIntent.setAction(FavoriteMovieWidget.TOAST_ACTION);
+            toastIntent.putExtra(EXTRA_APPWIDGET_ID, appWidgetId);
+            intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+            PendingIntent toastPendingIntent = PendingIntent.getBroadcast(context, 0, toastIntent,
+                    PendingIntent.FLAG_UPDATE_CURRENT);
+            views.setPendingIntentTemplate(R.id.stack_view, toastPendingIntent);
+            appWidgetManager.updateAppWidget(appWidgetId, views);
+        }
+
+    }
+
+    public PendingIntent getPendingSelfIntent(Context context, int appWidgetID, String action) {
+        Intent intent = new Intent(context, getClass());
+        intent.setAction(action);
+        intent.putExtra(EXTRA_APPWIDGET_ID, appWidgetID);
+        return PendingIntent.getBroadcast(context, appWidgetID, intent, 0);
     }
 }
 

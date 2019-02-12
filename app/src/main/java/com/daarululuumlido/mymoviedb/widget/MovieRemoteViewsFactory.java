@@ -34,7 +34,7 @@ public class MovieRemoteViewsFactory implements RemoteViewsService.RemoteViewsFa
 
     private FavoriteModel getFav(int position) {
         if (!cursor.moveToPosition(position)) {
-            throw new IllegalStateException("Position invalid!");
+            //throw new IllegalStateException("Position invalid!");
         }
 
         return new FavoriteModel(cursor);

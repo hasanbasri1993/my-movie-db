@@ -8,13 +8,8 @@
     <string name="nowplaying_title_tab">الان العب</string>
     <string name="overview_sample">Predominantly set during World War II, Steve Rogers is a sickly man from Brooklyn who\'s transformed into super-soldier Captain America to aid in the war effort. Rogers must stop the Red Skull – Adolf Hitler\'s ruthless head of weaponry, and the leader of an organization that intends to use a mysterious device of untold powers for world domination.</string>
     <string name="title_sample">Captain America: The First Avenger</string>
-    <string name="detail_movie_title">فيلم التفاصيل</string>
-    <string name="rating_detail">تقييم</string>
-    <string name="duration_detail">المدة الزمنية</string>
-    <string name="language_detail">لغة</string>
     <string name="genres_detail">الجنس الأدبي</string>
     <string name="release_detail">إطلاق سراح</string>
-    <string name="overview_detail">"نظرة عامة "</string>
     <string name="release_date_sample">2002-05-01</string>
     <string name="favorite_title_tab">Favorite</string>
 </resources>

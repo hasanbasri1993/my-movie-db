@@ -3,7 +3,6 @@ package com.daarululuumlido.mymoviedb.activity;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -118,8 +117,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == R.id.action_settings_language) {
-            Intent mIntent = new Intent(Settings.ACTION_LOCALE_SETTINGS);
+        if (item.getItemId() == R.id.action_settings) {
+            Intent mIntent = new Intent(this, SettingsPrefActivity.class);
             startActivity(mIntent);
         } else if (item.getItemId() == R.id.action_favorite) {
             Intent mIntent = new Intent(this, SearchResultMovieActivity.class);

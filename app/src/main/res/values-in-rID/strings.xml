@@ -8,13 +8,8 @@
     <string name="search_titile_tab">Cari Film</string>
     <string name="upcoming_title_tab">Mendatang</string>
     <string name="nowplaying_title_tab">Sekarang</string>
-    <string name="detail_movie_title">Detail Film</string>
-    <string name="rating_detail">Peringkat</string>
-    <string name="duration_detail">Durasi</string>
-    <string name="language_detail">Bahasa</string>
     <string name="genres_detail">Genre</string>
     <string name="release_detail">Tanggal Keluar</string>
-    <string name="overview_detail">Ikhtisar</string>
     <string name="release_date_sample">2002-05-01</string>
     <string name="favorite_title_tab">Favorite</string>
 </resources>

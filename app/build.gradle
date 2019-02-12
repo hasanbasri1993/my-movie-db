@@ -10,8 +10,9 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "TMDB_API_KEY", '"b650046bf640e7bf7054093854b8d02a"')
-        buildConfigField "String", "BASE_URL", '"https://api.themoviedb.org/3/"'
-        buildConfigField "String", "IMAGE_URL", '"http://image.tmdb.org/t/p/w92"'
+        buildConfigField "String", "BASE_URL", '"http://api.themoviedb.org/3/"'
+        buildConfigField "String", "IMAGE_URL", '"https://image.tmdb.org/t/p/w154"'
+        buildConfigField "String", "IMAGE_URL_BACKDROP", '"https://image.tmdb.org/t/p/w500"'
 
     }
     buildTypes {
